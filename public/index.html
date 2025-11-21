@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LEGO Art Gallery</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
   <header>
-    <h1>LEGO Art Gallery</h1>
-    <p class="subtitle">子どもの作品アーカイブ</p>
+    <h1>Aoi Works Studio</h1>
+    <p class="subtitle">小さな作品に、大きな敬意を。</p>
   </header>
 
-  <main id="gallery" class="gallery"></main>
+  <main id="gallery"></main>
 
   <script>
-    fetch("works.json")
-      .then(res => res.json())
-      .then(data => {
-        const gallery = document.getElementById("gallery");
-        data.forEach(item => {
-          const div = document.createElement("div");
-          div.className = "card";
-          div.innerHTML = `
-            <div class="image-wrapper">
-              <img src="${item.image}" alt="${item.title}">
-            </div>
-            <div class="meta">
-              <h2>${item.title}</h2>
-              <span class="date">${item.date}</span>
-              <p>${item.description}</p>
-            </div>
-          `;
-          gallery.appendChild(div);
-        });
+    async function loadWorks() {
+      const res = await fetch("works.json");
+      const works = await res.json();
+      const gallery = document.getElementById("gallery");
+
+      works.forEach(work => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <div class="image-frame">
+            <img src="${work.image}" loading="lazy">
+          </div>
+
+          <div class="caption">
+            <h2 class="title">${work.title}</h2>
+            <p class="date">${work.date}</p>
+            <p class="description">${work.description}</p>
+          </div>
+        `;
+
+        gallery.appendChild(card);
       });
+    }
+
+    loadWorks();
   </script>
+
 </body>
 </html>

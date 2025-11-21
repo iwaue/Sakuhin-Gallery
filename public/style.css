@@ -1,80 +1,86 @@
+/* ---- 全体 ---- */
 body {
   margin: 0;
-  padding: 0;
-  background: #fafafa;
-  font-family: 'Inter', sans-serif;
-  color: #333;
+  font-family: "Helvetica Neue", "Noto Sans JP", sans-serif;
+  background: #f7f7f7;
+  color: #222;
 }
 
-/* Header */
+/* ---- Header ---- */
 header {
   text-align: center;
   padding: 60px 20px 40px;
 }
 
 h1 {
-  margin: 0;
-  font-size: 34px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-weight: 500;
+  font-size: 2.4rem;
+  margin-bottom: 6px;
 }
 
 .subtitle {
-  font-size: 14px;
-  margin-top: 8px;
-  color: #777;
+  font-size: 0.95rem;
+  color: #666;
+  letter-spacing: 0.04em;
 }
 
-/* Gallery Grid */
-.gallery {
+/* ---- Gallery Grid ---- */
+#gallery {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 20px 20px 60px;
+
   display: grid;
-  gap: 40px;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  padding: 0 40px 60px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 36px;
 }
 
-/* Card */
+/* ---- Card ---- */
 .card {
   background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-  transition: transform 0.25s;
+  border-radius: 10px;
+  padding-bottom: 18px;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #ececec;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.image-wrapper {
+/* ---- Image (美術館の作品枠風) ---- */
+.image-frame {
   width: 100%;
-  height: 200px;
+  aspect-ratio: 1 / 1; /* 正方形の作品フレーム */
+
   overflow: hidden;
+  border-bottom: 1px solid #eee;
 }
 
-.image-wrapper img {
+.image-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; 
+  display: block;
 }
 
-.meta {
-  padding: 20px;
+/* ---- Caption (展示キャプション風) ---- */
+.caption {
+  padding: 12px 18px 0;
 }
 
-.meta h2 {
-  margin: 0 0 8px;
-  font-size: 18px;
+.title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 4px 0 6px;
+  color: #111;
 }
 
 .date {
-  font-size: 12px;
-  color: #666;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 6px;
 }
 
-.meta p {
-  font-size: 14px;
-  line-height: 1.6;
-  margin-top: 10px;
-  color: #444;
+.description {
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.45;
+  margin-top: 4px;
 }
