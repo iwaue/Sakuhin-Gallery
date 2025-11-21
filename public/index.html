@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>LEGO Art Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>LEGO Art Gallery</h1>
+    <p class="subtitle">子どもの作品アーカイブ</p>
+  </header>
+
+  <main id="gallery" class="gallery"></main>
+
+  <script>
+    fetch("works.json")
+      .then(res => res.json())
+      .then(data => {
+        const gallery = document.getElementById("gallery");
+        data.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "card";
+          div.innerHTML = `
+            <div class="image-wrapper">
+              <img src="${item.image}" alt="${item.title}">
+            </div>
+            <div class="meta">
+              <h2>${item.title}</h2>
+              <span class="date">${item.date}</span>
+              <p>${item.description}</p>
+            </div>
+          `;
+          gallery.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
