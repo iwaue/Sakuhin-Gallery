@@ -10,38 +10,31 @@ async function main() {
   });
 
   const works = result.results.map(page => {
-    const props = page.properties;
+    const p = page.properties;
 
-    // 1. Title
-    const title = props.Title?.title?.[0]?.plain_text || "No Title";
+    // ---- Title ----
+    const title =
+      p.Title?.title?.[0]?.plain_text ||
+      p.Name?.title?.[0]?.plain_text || 
+      "No Title";
 
-    // 2. Date
-    const date = props.Date?.date?.start || "";
+    // ---- Date ----
+    const date = p.Date?.date?.start || "";
 
-    // 3. Description
-    const description = props.Description?.rich_text?.[0]?.plain_text || "";
+    // ---- Description ----
+    const description =
+      p.Description?.rich_text?.[0]?.plain_text ||
+      "";
 
-    // 4. Image（HEIC対応）
+    // ---- Image (file / external 両対応 + HEICもそのままOK) ----
     let image = "";
-    const fileObj = props.Image?.files?.[0];
+    if (p.Image?.files?.length > 0) {
+      const fileObj = p.Image.files[0];
 
-    if (fileObj) {
-      // --- Notion内ファイル（通常PNG/JPG変換される） ---
-      if (fileObj.file?.url) {
-        image = fileObj.file.url;
-      }
-
-      // --- 外部リンクHEIC（iPhone直アップのときに発生） ---
-      else if (fileObj.external?.url) {
-        let url = fileObj.external.url;
-
-        // HEIC を JPG 表示可能に変換する Notion CDN ハック（公式に準拠）
-        if (url.endsWith(".heic") || url.includes("image/heic")) {
-          // Notionは preview=1 を付けると JPG 変換して返す
-          url = url + "?preview=1";
-        }
-
-        image = url;
+      if (fileObj.type === "file") {
+        image = fileObj.file.url; // Notion内部ストレージ
+      } else if (fileObj.type === "external") {
+        image = fileObj.external.url; // 外部URL
       }
     }
 
@@ -49,9 +42,7 @@ async function main() {
   });
 
   fs.writeFileSync("./public/works.json", JSON.stringify(works, null, 2));
+  console.log("✅ works.json updated:", works.length, "items");
 }
 
-main().catch(err => {
-  console.error("Build error:", err);
-  process.exit(1);
-});
+main().catch(console.error);
